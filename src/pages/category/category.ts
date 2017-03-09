@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { QuotesService } from '../../services/quotes';
+import { Quote } from '../../data/quote.interface';
 
 /*
   Generated class for the Category page.
@@ -16,9 +18,9 @@ export class CategoryPage implements OnInit{
 	quotes:  { id: 'string', person: 'string', text: 'string' }[];
 	icon: string;
 	
-	constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {}
+	constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public quotesService: QuotesService ) {}
 
-	onAddToFavorites(quote){
+	onAddToFavorites(quote: Quote){
 		console.log('Want to add quote to favorites', quote);
 		
 		let alert = this.alertCtrl.create({
@@ -34,12 +36,22 @@ export class CategoryPage implements OnInit{
 				{
 					text: 'Favorite',
 					handler: () => {
-						console.log('Add clicked');
+						//console.log('Add clicked');
+						this.quotesService.addQuoteToFavorites(quote);
+						
 					}
 				}
 			]
 		});
 		alert.present();
+	}
+	
+	onRemoveFromFavorites(quote: Quote){
+		this.quotesService.removeQuoteFromFavorites(quote);
+	}
+	
+	isFavorite(quote: Quote){  
+		return this.quotesService.isFavorite(quote);
 	}
 	
 	ngOnInit(){
