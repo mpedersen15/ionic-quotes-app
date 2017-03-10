@@ -21,11 +21,13 @@ export class FavoritesPage {
 		
 		modal.onDidDismiss((remove: boolean) => {
 			if (!remove) return;
-			
-			this.quotesService.removeQuoteFromFavorites(quote);
-			this.quotes = this.quotesService.getFavoriteQuotes(); // could also splice the this.quotes array
-			
+			this.onRemoveFromFavorites(quote);
 		});
+	}
+	
+	onRemoveFromFavorites(quote: Quote){
+		this.quotesService.removeQuoteFromFavorites(quote);
+		this.quotes = this.quotesService.getFavoriteQuotes(); // could also splice the this.quotes array
 	}
 	
 	ionViewWillEnter(){
